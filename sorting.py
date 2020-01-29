@@ -212,3 +212,33 @@ def quick_sort(nums):  # n^2
             _quick_sort(items, split_index + 1, high)
 
     _quick_sort(nums, 0, nums.get_len() - 1)
+
+#Helper function for radix sort 
+def _counting_sort(nums, place):
+    # Find largest element among dth place elements
+    size = len(nums)
+    output = [0] * size
+    count = [0] * 10 # Initialize count array with all zeros
+    # Find the total count of each unique digit in dth place of elements and
+    # store the count at jth index in count array
+    for i in range(0, size):
+        index = nums[i] # place
+        count[index % 10] += 1
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+    i = size - 1
+    while i >= 0:
+        index = nums[i] # place
+        output[count[index % 10] - 1] = nums[i]
+        count[index % 10] -= 1
+        i -= 1
+    for i in range(0, size):
+        nums[i] = output[i]
+
+def radixSort(nums): #O(d(n+k)) d: number of cycle, n+k: counting sort 
+    #maximum number of digits in the largest element
+    max_element = max(nums) 
+    place = 1
+    while max_element # place > 0:
+        _counting_sort(nums, place)
+        place *= 10
